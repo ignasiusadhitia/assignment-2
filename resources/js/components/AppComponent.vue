@@ -23,6 +23,11 @@
             <span>{{ product.name }}</span>
             <button @click="removeFromCartHandler(product.id)">-</button>
             <span>{{ product.count }}</span>
+            <input
+                type="number"
+                v-model="product.count"
+                @change="updateCartItemCountHandler(product)"
+            />
             <button @click="addToCartHandler(product)">+</button>
             <span>{{ product.price }}</span>
             <span>Subtotal: {{ getCartItemSubtotal(product) }}</span>
@@ -158,6 +163,27 @@ export default {
             const index = this.cart.findIndex((item) => item.id === id);
 
             this.cart.splice(index, 1);
+        },
+
+        updateCartItemCountHandler(product) {
+            const index = this.cart.findIndex((item) => item.id === product.id);
+
+            if (index !== -1) {
+                let newCount = product.count;
+
+                if (newCount <= 0 || isNaN(newCount)) {
+                    alert(`You can't add less than 1 for this product.`);
+                    newCount = 1;
+                } else if (newCount > product.stock) {
+                    alert(
+                        `You can't add more than the available stock (${product.stock}) for this product.`
+                    );
+                    newCount = product.stock;
+                }
+
+                this.cart[index].count = newCount;
+                // }
+            }
         },
 
         clearCartHandler() {
