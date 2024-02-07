@@ -24,7 +24,12 @@
             <button @click="removeFromCartHandler(product.id)">-</button>
             <span>{{ product.count }}</span>
             <button @click="addToCartHandler(product)">+</button>
+            <span>{{ product.price }}</span>
+            <span>Subtotal: {{ getCartItemSubtotal(product) }}</span>
+            <button @click="deleteCartItemHandler(product.id)">Delete</button>
         </div>
+        <span>Total item: {{ getTotalCartCount() }}</span>
+        <span>Total price: {{ getTotalCartPrice() }}</span>
         <button @click="clearCartHandler">Clear Cart</button>
     </div>
 </template>
@@ -99,6 +104,23 @@ export default {
             return itemInCart ? itemInCart.count : 0;
         },
 
+        getCartItemSubtotal(product) {
+            const { count, price } = product;
+
+            return count * price;
+        },
+
+        getTotalCartCount() {
+            return this.cart.reduce((total, item) => total + item.count, 0);
+        },
+
+        getTotalCartPrice() {
+            return this.cart.reduce(
+                (total, item) => total + item.price * item.count,
+                0
+            );
+        },
+
         addToCartHandler(cartItem) {
             const { id, name, stock, price } = cartItem;
             const existingItem = this.cart.find((item) => item.id === id);
@@ -132,7 +154,11 @@ export default {
             }
         },
 
-        deleteCartItemHandler() {},
+        deleteCartItemHandler(id) {
+            const index = this.cart.findIndex((item) => item.id === id);
+
+            this.cart.splice(index, 1);
+        },
 
         clearCartHandler() {
             this.cart = [];
