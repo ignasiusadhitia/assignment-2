@@ -25,6 +25,7 @@
             <span>{{ product.count }}</span>
             <button @click="addToCartHandler(product)">+</button>
         </div>
+        <button @click="clearCartHandler">Clear Cart</button>
     </div>
 </template>
 
@@ -132,6 +133,10 @@ export default {
         },
 
         deleteCartItemHandler() {},
+
+        clearCartHandler() {
+            this.cart = [];
+        },
 
         showModalHandler() {},
 

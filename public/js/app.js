@@ -21495,6 +21495,9 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     deleteCartItemHandler: function deleteCartItemHandler() {},
+    clearCartHandler: function clearCartHandler() {
+      this.cart = [];
+    },
     showModalHandler: function showModalHandler() {},
     checkoutHandler: function checkoutHandler() {}
   }
@@ -21757,7 +21760,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.addToCartHandler(product);
       }
     }, "+", 8 /* PROPS */, _hoisted_4)]);
-  }), 128 /* KEYED_FRAGMENT */))])], 64 /* STABLE_FRAGMENT */);
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $options.clearCartHandler && $options.clearCartHandler.apply($options, arguments);
+    })
+  }, "Clear Cart")])], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
