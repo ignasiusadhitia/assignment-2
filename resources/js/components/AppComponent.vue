@@ -4,6 +4,7 @@
         <div v-for="product in products" :key="product.id">
             <div>
                 <span>{{ product.name }}</span>
+                <span>{{ product.stock }}</span>
                 <button @click="addToCartHandler(product)">Add to cart</button>
             </div>
         </div>
@@ -12,7 +13,7 @@
     <div>
         <div v-for="product in cart" :key="product.id">
             <span>{{ product.name }}</span>
-            <button>-</button>
+            <button @click="removeFromCartHandler(product.id)">-</button>
             <span>{{ product.count }}</span>
             <button @click="addToCartHandler(product)">+</button>
         </div>
@@ -93,7 +94,17 @@ export default {
             }
         },
 
-        updateCartItemCountHandler() {},
+        removeFromCartHandler(id) {
+            const index = this.cart.findIndex((item) => item.id === id);
+
+            if (index !== -1) {
+                this.cart[index].count--;
+
+                if (this.cart[index].count === 0) {
+                    this.cart.splice(index, 1);
+                }
+            }
+        },
 
         deleteCartItemHandler() {},
 
