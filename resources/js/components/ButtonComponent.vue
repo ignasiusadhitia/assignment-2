@@ -1,7 +1,22 @@
-<template><div></div></template>
+<template>
+    <button @click="onClickHandler">{{ text }}</button>
+</template>
 
 <script>
-export default {};
+export default {
+    emits: ["emit-click"],
+    props: {
+        text: {
+            type: String,
+            default: "",
+        },
+    },
+    methods: {
+        onClickHandler() {
+            this.$emit("emit-click");
+        },
+    },
+};
 </script>
 
 <style></style>

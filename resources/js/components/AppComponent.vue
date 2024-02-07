@@ -1,5 +1,22 @@
 <template>
-    <div>App</div>
+    <input-component />
+    <div>
+        <div v-for="product in products" :key="product.id">
+            <div>
+                <span>{{ product.name }}</span>
+                <button @click="addToCartHandler(product)">Add to cart</button>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div>
+        <div v-for="product in cart" :key="product.id">
+            <span>{{ product.name }}</span>
+            <button>-</button>
+            <span>{{ product.count }}</span>
+            <button @click="addToCartHandler(product)">+</button>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -12,7 +29,7 @@ export default {
                     name: "Nutty Oat Latte",
                     imgUrl: "https://static.fore.coffee/product/Nutty_Oat_Latte.jpeg",
                     desc: "Espresso dari biji kopi khas nusantara dipadukan susu oat gluten-free dan sensasi nutty dari hazelnut.",
-                    stock: 50,
+                    stock: 38,
                     price: 33000,
                 },
                 {
@@ -20,7 +37,7 @@ export default {
                     name: "Iced Classic Latte",
                     imgUrl: "https://static.fore.coffee/product/classiclatteiced173.jpg",
                     desc: "Perpaduan rasa espresso premium dengan saus krim spesial Caféine",
-                    stock: 50,
+                    stock: 27,
                     price: 24000,
                 },
                 {
@@ -28,7 +45,7 @@ export default {
                     name: "Iced Salted Caramel Mocha",
                     imgUrl: "https://static.fore.coffee/product/saltedcarameliced173.jpg",
                     desc: "Perpaduan coklat, latte dari house blend Fore, dan gurihnya caramel",
-                    stock: 50,
+                    stock: 43,
                     price: 33000,
                 },
                 {
@@ -36,7 +53,7 @@ export default {
                     name: "Hot Cappuccino",
                     imgUrl: "https://static.fore.coffee/product/cappuccinohot173.jpg",
                     desc: "Espresso shots dengan susu hangat dan lapisan foam tebal di atasnya",
-                    stock: 50,
+                    stock: 48,
                     price: 29000,
                 },
                 {
@@ -44,7 +61,7 @@ export default {
                     name: "Hot Café Latte",
                     imgUrl: "https://static.fore.coffee/product/cafelatte173.jpg",
                     desc: "Paduan espresso dengan susu sapi pilihan dan sedikit foam di atasnya",
-                    stock: 50,
+                    stock: 32,
                     price: 29000,
                 },
                 {
@@ -56,7 +73,33 @@ export default {
                     price: 21000,
                 },
             ],
+            cart: [],
         };
+    },
+    methods: {
+        addToCartHandler(cartItem) {
+            const { id, name, price } = cartItem;
+            const existingItem = this.cart.find((item) => item.id === id);
+
+            if (existingItem) {
+                existingItem.count++;
+            } else {
+                this.cart.push({
+                    id,
+                    name,
+                    price,
+                    count: 1,
+                });
+            }
+        },
+
+        updateCartItemCountHandler() {},
+
+        deleteCartItemHandler() {},
+
+        showModalHandler() {},
+
+        checkoutHandler() {},
     },
 };
 </script>
