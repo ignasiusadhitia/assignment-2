@@ -5,7 +5,15 @@
             <div>
                 <span>{{ product.name }}</span>
                 <span>Remaining stock: {{ getRemainingStock(product) }}</span>
-                <button @click="addToCartHandler(product)">Add to cart</button>
+                <button
+                    @click="addToCartHandler(product)"
+                    :disabled="
+                        product.stock === 0 ||
+                        product.stock <= getProductCountInCart(product.id)
+                    "
+                >
+                    Add to cart
+                </button>
             </div>
         </div>
     </div>
@@ -85,17 +93,27 @@ export default {
             );
         },
 
+        getProductCountInCart(id) {
+            const itemInCart = this.cart.find((item) => item.id === id);
+            return itemInCart ? itemInCart.count : 0;
+        },
+
         addToCartHandler(cartItem) {
-            const { id, name, price } = cartItem;
+            const { id, name, stock, price } = cartItem;
             const existingItem = this.cart.find((item) => item.id === id);
 
             if (existingItem) {
-                existingItem.count++;
+                if (existingItem.count < stock) {
+                    existingItem.count++;
+                } else {
+                    alert("No more stock available for this product!");
+                }
             } else {
                 this.cart.push({
                     id,
                     name,
                     price,
+                    stock,
                     count: 1,
                 });
             }
