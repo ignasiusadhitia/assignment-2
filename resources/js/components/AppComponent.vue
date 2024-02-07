@@ -4,7 +4,7 @@
         <div v-for="product in products" :key="product.id">
             <div>
                 <span>{{ product.name }}</span>
-                <span>{{ product.stock }}</span>
+                <span>Remaining stock: {{ getRemainingStock(product) }}</span>
                 <button @click="addToCartHandler(product)">Add to cart</button>
             </div>
         </div>
@@ -78,6 +78,13 @@ export default {
         };
     },
     methods: {
+        getRemainingStock(product) {
+            return (
+                product.stock -
+                (this.cart.find((item) => item.id === product.id)?.count || 0)
+            );
+        },
+
         addToCartHandler(cartItem) {
             const { id, name, price } = cartItem;
             const existingItem = this.cart.find((item) => item.id === id);
