@@ -2,9 +2,15 @@
     <input-component />
     <logo-component />
     <cart-icon-component />
+
+    <modal-component
+        :cartData="cart"
+        v-if="isModalVisible"
+        @emit-close="closeModalHandler(false)"
+    />
     <div>
         <div v-for="product in products" :key="product.id">
-            <div>
+            <!-- <div>
                 <span>{{ product.name }}</span>
                 <span>Remaining stock: {{ getRemainingStock(product) }}</span>
                 <button
@@ -16,7 +22,12 @@
                 >
                     Add to cart
                 </button>
-            </div>
+            </div> -->
+            <product-card-component
+                :product="product"
+                :cart="cart"
+                @emit-add-product="addToCartHandler"
+            />
         </div>
     </div>
     <hr />
@@ -42,7 +53,9 @@
 </template>
 
 <script>
+import ProductCardComponent from "./ProductCardComponent.vue";
 export default {
+    components: { ProductCardComponent },
     data: function () {
         return {
             products: [
@@ -96,19 +109,20 @@ export default {
                 },
             ],
             cart: [],
+            isModalVisible: false,
         };
     },
     methods: {
+        getProductCountInCart(id) {
+            const itemInCart = this.cart.find((item) => item.id === id);
+            return itemInCart ? itemInCart.count : 0;
+        },
+
         getRemainingStock(product) {
             return (
                 product.stock -
                 (this.cart.find((item) => item.id === product.id)?.count || 0)
             );
-        },
-
-        getProductCountInCart(id) {
-            const itemInCart = this.cart.find((item) => item.id === id);
-            return itemInCart ? itemInCart.count : 0;
         },
 
         getCartItemSubtotal(product) {
@@ -146,6 +160,10 @@ export default {
                     stock,
                     count: 1,
                 });
+            }
+
+            if (!this.isModalVisible) {
+                this.isModalVisible = true;
             }
         },
 
@@ -191,7 +209,9 @@ export default {
             this.cart = [];
         },
 
-        showModalHandler() {},
+        closeModalHandler() {
+            this.isModalVisible = false;
+        },
 
         checkoutHandler() {},
     },

@@ -21397,7 +21397,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _ProductCardComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductCardComponent.vue */ "./resources/js/components/ProductCardComponent.vue");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    ProductCardComponent: _ProductCardComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       products: [{
@@ -21443,21 +21448,22 @@ __webpack_require__.r(__webpack_exports__);
         stock: 50,
         price: 21000
       }],
-      cart: []
+      cart: [],
+      isModalVisible: false
     };
   },
   methods: {
-    getRemainingStock: function getRemainingStock(product) {
-      var _this$cart$find;
-      return product.stock - (((_this$cart$find = this.cart.find(function (item) {
-        return item.id === product.id;
-      })) === null || _this$cart$find === void 0 ? void 0 : _this$cart$find.count) || 0);
-    },
     getProductCountInCart: function getProductCountInCart(id) {
       var itemInCart = this.cart.find(function (item) {
         return item.id === id;
       });
       return itemInCart ? itemInCart.count : 0;
+    },
+    getRemainingStock: function getRemainingStock(product) {
+      var _this$cart$find;
+      return product.stock - (((_this$cart$find = this.cart.find(function (item) {
+        return item.id === product.id;
+      })) === null || _this$cart$find === void 0 ? void 0 : _this$cart$find.count) || 0);
     },
     getCartItemSubtotal: function getCartItemSubtotal(product) {
       var count = product.count,
@@ -21497,6 +21503,9 @@ __webpack_require__.r(__webpack_exports__);
           count: 1
         });
       }
+      if (!this.isModalVisible) {
+        this.isModalVisible = true;
+      }
     },
     removeFromCartHandler: function removeFromCartHandler(id) {
       var index = this.cart.findIndex(function (item) {
@@ -21534,7 +21543,9 @@ __webpack_require__.r(__webpack_exports__);
     clearCartHandler: function clearCartHandler() {
       this.cart = [];
     },
-    showModalHandler: function showModalHandler() {},
+    closeModalHandler: function closeModalHandler() {
+      this.isModalVisible = false;
+    },
     checkoutHandler: function checkoutHandler() {}
   }
 });
@@ -21585,7 +21596,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     count: {
       type: Number,
-      "default": null
+      "default": 1
     }
   },
   methods: {
@@ -21709,7 +21720,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  emits: ["emit-close"],
+  props: {
+    cartData: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    }
+  },
+  methods: {
+    onCloseHandler: function onCloseHandler() {
+      this.$emit("emit-close");
+    }
+  }
+});
 
 /***/ }),
 
@@ -21724,7 +21750,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  emits: ["emit-add-product"],
+  props: {
+    product: {
+      type: Object,
+      required: true
+    },
+    cart: {
+      type: Array,
+      required: true
+    }
+  },
+  computed: {
+    getRemainingStock: function getRemainingStock() {
+      return this.product.stock - this.getProductCountInCart(this.product.id);
+    }
+  },
+  methods: {
+    emitAddToCart: function emitAddToCart() {
+      this.$emit("emit-add-product", this.product);
+    },
+    getProductCountInCart: function getProductCountInCart(id) {
+      var itemInCart = this.cart.find(function (item) {
+        return item.id = id;
+      });
+      return itemInCart ? itemInCart.count : 0;
+    }
+  }
+});
 
 /***/ }),
 
@@ -21782,33 +21836,39 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = ["onClick", "disabled"];
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */);
-var _hoisted_3 = ["onClick"];
-var _hoisted_4 = ["onUpdate:modelValue", "onChange"];
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */);
+var _hoisted_2 = ["onClick"];
+var _hoisted_3 = ["onUpdate:modelValue", "onChange"];
+var _hoisted_4 = ["onClick"];
 var _hoisted_5 = ["onClick"];
-var _hoisted_6 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_input_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("input-component");
   var _component_logo_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("logo-component");
   var _component_cart_icon_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("cart-icon-component");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_input_component), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_logo_component), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_cart_icon_component), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.products, function (product) {
+  var _component_modal_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("modal-component");
+  var _component_product_card_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("product-card-component");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_input_component), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_logo_component), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_cart_icon_component), _ctx.isModalVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_modal_component, {
+    key: 0,
+    cartData: _ctx.cart,
+    onEmitClose: _cache[0] || (_cache[0] = function ($event) {
+      return $options.closeModalHandler(false);
+    })
+  }, null, 8 /* PROPS */, ["cartData"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.products, function (product) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: product.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Remaining stock: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getRemainingStock(product)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      onClick: function onClick($event) {
-        return $options.addToCartHandler(product);
-      },
-      disabled: product.stock === 0 || product.stock <= $options.getProductCountInCart(product.id)
-    }, " Add to cart ", 8 /* PROPS */, _hoisted_1)])]);
-  }), 128 /* KEYED_FRAGMENT */))]), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.cart, function (product) {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div>\r\n                <span>{{ product.name }}</span>\r\n                <span>Remaining stock: {{ getRemainingStock(product) }}</span>\r\n                <button\r\n                    @click=\"addToCartHandler(product)\"\r\n                    :disabled=\"\r\n                        product.stock === 0 ||\r\n                        product.stock <= getProductCountInCart(product.id)\r\n                    \"\r\n                >\r\n                    Add to cart\r\n                </button>\r\n            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_product_card_component, {
+      product: product,
+      cart: _ctx.cart,
+      onEmitAddProduct: $options.addToCartHandler
+    }, null, 8 /* PROPS */, ["product", "cart", "onEmitAddProduct"])]);
+  }), 128 /* KEYED_FRAGMENT */))]), _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.cart, function (product) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: product.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.removeFromCartHandler(product.id);
       }
-    }, "-", 8 /* PROPS */, _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.count), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, "-", 8 /* PROPS */, _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.count), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "number",
       "onUpdate:modelValue": function onUpdateModelValue($event) {
         return product.count = $event;
@@ -21816,17 +21876,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onChange: function onChange($event) {
         return $options.updateCartItemCountHandler(product);
       }
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, product.count]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_3), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, product.count]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.addToCartHandler(product);
       }
-    }, "+", 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Subtotal: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getCartItemSubtotal(product)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "+", 8 /* PROPS */, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Subtotal: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getCartItemSubtotal(product)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.deleteCartItemHandler(product.id);
       }
-    }, "Delete", 8 /* PROPS */, _hoisted_6)]);
+    }, "Delete", 8 /* PROPS */, _hoisted_5)]);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Total item: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getTotalCartCount()), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Total price: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getTotalCartPrice()), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[0] || (_cache[0] = function () {
+    onClick: _cache[1] || (_cache[1] = function () {
       return $options.clearCartHandler && $options.clearCartHandler.apply($options, arguments);
     })
   }, "Clear Cart")])], 64 /* STABLE_FRAGMENT */);
@@ -21880,10 +21940,10 @@ var _hoisted_2 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     fill: "currentColor",
-    "class": "bi bi-cart",
+    "class": "bi bi-cart2",
     viewBox: "0 0 16 16"
   }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-    d: "M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"
+    d: "M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l1.25 5h8.22l1.25-5zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"
   })])], -1 /* HOISTED */);
 });
 var _hoisted_3 = {
@@ -22065,8 +22125,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-dialog modal-dialog-centered\"><div class=\"modal-content\"><div class=\"modal-header\"><h1 class=\"modal-title fs-5\" id=\"exampleModalCenterTitle\"> Modal title </h1><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button></div><div class=\"modal-body\"><p>This is a vertically centered modal.</p></div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\"> Close </button><button type=\"button\" class=\"btn btn-primary\"> Save changes </button></div></div></div>", 1);
+var _hoisted_2 = [_hoisted_1];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    "class": "modal fade show",
+    id: "exampleModalCenter",
+    tabindex: "-1",
+    "aria-labelledby": "exampleModalCenterTitle",
+    "aria-modal": "true",
+    role: "dialog",
+    style: {
+      "display": "block",
+      "background-color": "rgba(33, 37, 41, 0.4)"
+    },
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $options.onCloseHandler && $options.onCloseHandler.apply($options, arguments);
+    })
+  }, [].concat(_hoisted_2));
 }
 
 /***/ }),
@@ -22084,8 +22160,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
+var _hoisted_1 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.product.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Remaining stock: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getRemainingStock), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $options.emitAddToCart && $options.emitAddToCart.apply($options, arguments);
+    }),
+    disabled: $props.product.stock === 0 || $props.product.stock <= $options.getProductCountInCart
+  }, " Add to cart ", 8 /* PROPS */, _hoisted_1)], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
