@@ -1,5 +1,7 @@
 <template>
     <input-component />
+    <logo-component />
+    <cart-icon-component />
     <div>
         <div v-for="product in products" :key="product.id">
             <div>
@@ -182,7 +184,6 @@ export default {
                 }
 
                 this.cart[index].count = newCount;
-                // }
             }
         },
 

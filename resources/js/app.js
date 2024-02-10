@@ -21,6 +21,9 @@ app.component("app-component", AppComponent);
 import ButtonComponent from "./components/ButtonComponent.vue";
 app.component("button-component", ButtonComponent);
 
+import CartIconComponent from "./components/CartIconComponent.vue";
+app.component("cart-icon-component", CartIconComponent);
+
 import CartItemComponent from "./components/CartItemComponent.vue";
 app.component("cart-item-component", CartItemComponent);
 
@@ -33,14 +36,14 @@ app.component("footer-component", FooterComponent);
 import HeaderComponent from "./components/HeaderComponent.vue";
 app.component("header-component", HeaderComponent);
 
-import IconComponent from "./components/IconComponent.vue";
-app.component("icon-component", IconComponent);
-
 import ImageComponent from "./components/ImageComponent.vue";
 app.component("image-component", ImageComponent);
 
 import InputComponent from "./components/InputComponent.vue";
 app.component("input-component", InputComponent);
+
+import LogoComponent from "./components/LogoComponent.vue";
+app.component("logo-component", LogoComponent);
 
 import ModalComponent from "./components/ModalComponent.vue";
 app.component("modal-component", ModalComponent);
