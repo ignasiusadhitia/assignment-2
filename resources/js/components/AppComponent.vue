@@ -219,8 +219,6 @@ export default {
         showModalHandler(value) {
             this.isModalVisible = value;
         },
-
-        checkoutHandler() {},
     },
 };
 </script>

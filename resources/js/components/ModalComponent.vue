@@ -23,7 +23,11 @@
                     ></button>
                 </div>
                 <div class="modal-body">
-                    <slot />
+                    <slot v-if="!paymentMessageVisible" />
+                    <div v-else class="text-center">
+                        <h2>This is the payment message.</h2>
+                        <p>Please proceed with your payment.</p>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button
@@ -34,7 +38,12 @@
                     >
                         Back
                     </button>
-                    <button type="button" class="btn btn-primary">
+                    <button
+                        v-if="cartData.length > 0"
+                        type="button"
+                        class="btn btn-primary"
+                        @click="checkoutHandler"
+                    >
                         Checkout
                     </button>
                 </div>
@@ -46,7 +55,6 @@
 <script>
 export default {
     emits: ["emit-show-modal"],
-
     props: {
         cartData: {
             type: Array,
@@ -58,10 +66,18 @@ export default {
             type: String,
         },
     },
-
+    data() {
+        return {
+            paymentMessageVisible: false,
+        };
+    },
     methods: {
         showModal() {
             this.$emit("emit-show-modal");
+        },
+
+        checkoutHandler() {
+            this.paymentMessageVisible = true;
         },
     },
 };
