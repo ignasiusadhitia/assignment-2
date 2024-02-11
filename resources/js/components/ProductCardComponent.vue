@@ -1,17 +1,15 @@
 <template>
     <span>{{ product.name }}</span>
-
-    <!-- <span>Remaining stock: {{ getRemainingStock }}</span>
+    <span>Remaining stock: {{ getRemainingStock(product) }}</span>
     <button
-        @click="emitAddToCart"
+        @click="addToCart(product)"
         :disabled="
-            product.stock === 0 || product.stock <= getProductCountInCart
+            product.stock === 0 ||
+            product.stock <= getProductCountInCart(product.id)
         "
     >
         Add to cart
-    </button> -->
-
-    <button @click="addToCart(product)">Add to cart</button>
+    </button>
 </template>
 
 <script>
@@ -21,6 +19,12 @@ export default {
         product: {
             type: Object,
             required: true,
+        },
+        getRemainingStock: {
+            type: Function,
+        },
+        getProductCountInCart: {
+            type: Function,
         },
     },
     methods: {

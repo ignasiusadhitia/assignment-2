@@ -27,26 +27,10 @@
 
     <products-list-component
         :products="products"
+        :get-remaining-stock="getRemainingStock"
+        :get-product-count-in-cart="getProductCountInCart"
         @emit-add-to-cart="addToCartHandler"
     />
-
-    <!-- <div>
-        <div v-for="product in cart" :key="product.id">
-            <span>{{ product.name }}</span>
-            <button @click="removeFromCartHandler(product.id)">-</button>
-            <span>{{ product.count }}</span>
-            <input
-                type="number"
-                v-model="product.count"
-                @change="updateCartItemCountHandler(product)"
-            />
-            <button @click="addToCartHandler(product)">+</button>
-            <span>{{ product.price }}</span>
-            <span>Subtotal: {{ getCartItemSubtotal(product) }}</span>
-            <button @click="deleteCartItemHandler(product.id)">Delete</button>
-        </div>
-        
-    </div> -->
 </template>
 
 <script>
@@ -181,7 +165,7 @@ export default {
                 let newCount = product.count;
 
                 if (newCount <= 0 || isNaN(newCount)) {
-                    alert(`You can't add less than 1 for this product.`);
+                    alert("You can't add less than 1 for this product.");
                     newCount = 1;
                 } else if (newCount > product.stock) {
                     alert(

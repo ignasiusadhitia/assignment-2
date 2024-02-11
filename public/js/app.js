@@ -21608,6 +21608,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   emits: ["emit-remove-from-cart", "emit-add-to-cart", "emit-delete-cart-item", "emit-update-cart-item-count"],
   props: {
@@ -21625,8 +21631,10 @@ __webpack_require__.r(__webpack_exports__);
     deleteCartItem: function deleteCartItem(id) {
       this.$emit("emit-delete-cart-item", id);
     },
-    updateCartItemCount: function updateCartItemCount(product) {
-      this.$emit("emit-update-cart-item-count", product);
+    updateCartItemCount: function updateCartItemCount(newValue) {
+      this.$emit("emit-update-cart-item-count", _objectSpread(_objectSpread({}, this.product), {}, {
+        count: newValue
+      }));
     },
     getCartItemSubtotal: function getCartItemSubtotal(product) {
       var count = product.count,
@@ -21753,8 +21761,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    onChangeHandler: function onChangeHandler(params) {
-      this.$emit("emit-change", params);
+    onInputHandler: function onInputHandler(newValue) {
+      this.$emit("emit-change", newValue);
     }
   }
 });
@@ -21808,6 +21816,12 @@ __webpack_require__.r(__webpack_exports__);
     product: {
       type: Object,
       required: true
+    },
+    getRemainingStock: {
+      type: Function
+    },
+    getProductCountInCart: {
+      type: Function
     }
   },
   methods: {
@@ -21835,6 +21849,12 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     products: {
       type: Array
+    },
+    getRemainingStock: {
+      type: Function
+    },
+    getProductCountInCart: {
+      type: Function
     }
   },
   methods: {
@@ -21925,8 +21945,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["cartData"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_products_list_component, {
     products: _ctx.products,
+    "get-remaining-stock": $options.getRemainingStock,
+    "get-product-count-in-cart": $options.getProductCountInCart,
     onEmitAddToCart: $options.addToCartHandler
-  }, null, 8 /* PROPS */, ["products", "onEmitAddToCart"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div>\r\n        <div v-for=\"product in cart\" :key=\"product.id\">\r\n            <span>{{ product.name }}</span>\r\n            <button @click=\"removeFromCartHandler(product.id)\">-</button>\r\n            <span>{{ product.count }}</span>\r\n            <input\r\n                type=\"number\"\r\n                v-model=\"product.count\"\r\n                @change=\"updateCartItemCountHandler(product)\"\r\n            />\r\n            <button @click=\"addToCartHandler(product)\">+</button>\r\n            <span>{{ product.price }}</span>\r\n            <span>Subtotal: {{ getCartItemSubtotal(product) }}</span>\r\n            <button @click=\"deleteCartItemHandler(product.id)\">Delete</button>\r\n        </div>\r\n        \r\n    </div> ")], 64 /* STABLE_FRAGMENT */);
+  }, null, 8 /* PROPS */, ["products", "get-remaining-stock", "get-product-count-in-cart", "onEmitAddToCart"])], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -22023,15 +22045,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "-"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_input_component, {
     type: "number",
     value: $props.product.count,
-    onEmitChange: _cache[1] || (_cache[1] = function ($event) {
-      return $options.updateCartItemCount($props.product);
-    })
-  }, null, 8 /* PROPS */, ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[2] || (_cache[2] = function ($event) {
+    onEmitChange: $options.updateCartItemCount
+  }, null, 8 /* PROPS */, ["value", "onEmitChange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[1] || (_cache[1] = function ($event) {
       return $options.addToCart($props.product);
     })
   }, "+"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Price: IDR" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.product.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Subtotal: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getCartItemSubtotal($props.product)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[3] || (_cache[3] = function ($event) {
+    onClick: _cache[2] || (_cache[2] = function ($event) {
       return $options.deleteCartItem($props.product.id);
     })
   }, "Delete")], 64 /* STABLE_FRAGMENT */);
@@ -22153,8 +22173,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: $props.type,
     value: $props.value,
     "class": "form-control form-control-sm",
-    onChange: _cache[0] || (_cache[0] = function ($event) {
-      return $options.onChangeHandler(_ctx.params);
+    onInput: _cache[0] || (_cache[0] = function ($event) {
+      return $options.onInputHandler(parseInt($event.target.value));
     })
   }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_1);
 }
@@ -22267,12 +22287,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
+var _hoisted_1 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.product.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span>Remaining stock: {{ getRemainingStock }}</span>\r\n    <button\r\n        @click=\"emitAddToCart\"\r\n        :disabled=\"\r\n            product.stock === 0 || product.stock <= getProductCountInCart\r\n        \"\r\n    >\r\n        Add to cart\r\n    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.product.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Remaining stock: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.getRemainingStock($props.product)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $options.addToCart($props.product);
-    })
-  }, "Add to cart")], 64 /* STABLE_FRAGMENT */);
+    }),
+    disabled: $props.product.stock === 0 || $props.product.stock <= $props.getProductCountInCart($props.product.id)
+  }, " Add to cart ", 8 /* PROPS */, _hoisted_1)], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -22297,8 +22319,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: product.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_product_card_component, {
       product: product,
+      "get-remaining-stock": $props.getRemainingStock,
+      "get-product-count-in-cart": $props.getProductCountInCart,
       onEmitAddToCart: $options.addToCart
-    }, null, 8 /* PROPS */, ["product", "onEmitAddToCart"])]);
+    }, null, 8 /* PROPS */, ["product", "get-remaining-stock", "get-product-count-in-cart", "onEmitAddToCart"])]);
   }), 128 /* KEYED_FRAGMENT */);
 }
 

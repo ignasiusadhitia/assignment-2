@@ -3,7 +3,7 @@
         :type="type"
         :value="value"
         class="form-control form-control-sm"
-        @change="onChangeHandler(params)"
+        @input="onInputHandler(parseInt($event.target.value))"
     />
 </template>
 
@@ -19,8 +19,8 @@ export default {
         },
     },
     methods: {
-        onChangeHandler(params) {
-            this.$emit("emit-change", params);
+        onInputHandler(newValue) {
+            this.$emit("emit-change", newValue);
         },
     },
 };

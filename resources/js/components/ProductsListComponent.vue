@@ -2,6 +2,8 @@
     <div v-for="product in products" :key="product.id">
         <product-card-component
             :product="product"
+            :get-remaining-stock="getRemainingStock"
+            :get-product-count-in-cart="getProductCountInCart"
             @emit-add-to-cart="addToCart"
         />
     </div>
@@ -13,6 +15,12 @@ export default {
     props: {
         products: {
             type: Array,
+        },
+        getRemainingStock: {
+            type: Function,
+        },
+        getProductCountInCart: {
+            type: Function,
         },
     },
 

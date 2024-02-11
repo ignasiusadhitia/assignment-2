@@ -4,7 +4,7 @@
     <input-component
         type="number"
         :value="product.count"
-        @emit-change="updateCartItemCount(product)"
+        @emit-change="updateCartItemCount"
     />
     <button @click="addToCart(product)">+</button>
 
@@ -39,8 +39,11 @@ export default {
             this.$emit("emit-delete-cart-item", id);
         },
 
-        updateCartItemCount(product) {
-            this.$emit("emit-update-cart-item-count", product);
+        updateCartItemCount(newValue) {
+            this.$emit("emit-update-cart-item-count", {
+                ...this.product,
+                count: newValue,
+            });
         },
 
         getCartItemSubtotal(product) {
