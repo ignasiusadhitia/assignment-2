@@ -1,9 +1,29 @@
 <template>
-    <input type="text" class="form-control form-control-sm" />
+    <input
+        :type="type"
+        :value="value"
+        class="form-control form-control-sm"
+        @change="onChangeHandler(params)"
+    />
 </template>
 
 <script>
-export default {};
+export default {
+    emits: ["emit-change"],
+    props: {
+        type: {
+            type: String,
+        },
+        value: {
+            type: Number,
+        },
+    },
+    methods: {
+        onChangeHandler(params) {
+            this.$emit("emit-change", params);
+        },
+    },
+};
 </script>
 
 <style scoped>

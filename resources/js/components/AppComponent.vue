@@ -1,37 +1,36 @@
 <template>
-    <input-component />
     <logo-component />
-    <cart-icon-component />
+    <cart-icon-component
+        :count="parseInt(getTotalCartCount())"
+        @emit-click="showModalHandler(true)"
+    />
 
     <modal-component
         :cartData="cart"
         v-if="isModalVisible"
-        @emit-close="closeModalHandler(false)"
-    />
-    <div>
-        <div v-for="product in products" :key="product.id">
-            <!-- <div>
-                <span>{{ product.name }}</span>
-                <span>Remaining stock: {{ getRemainingStock(product) }}</span>
-                <button
-                    @click="addToCartHandler(product)"
-                    :disabled="
-                        product.stock === 0 ||
-                        product.stock <= getProductCountInCart(product.id)
-                    "
-                >
-                    Add to cart
-                </button>
-            </div> -->
-            <product-card-component
-                :product="product"
-                :cart="cart"
-                @emit-add-product="addToCartHandler"
-            />
+        @emit-show-modal="showModalHandler(false)"
+    >
+        <cart-list-component
+            :cart="cart"
+            @emit-remove-from-cart="removeFromCartHandler"
+            @emit-add-to-cart="addToCartHandler"
+            @emit-delete-cart-item="deleteCartItemHandler"
+            @emit-update-cart-item-count="updateCartItemCountHandler"
+        />
+        <div v-if="cart.length">
+            <span>Total item: {{ getTotalCartCount() }}</span>
+            <span>Total price: {{ getTotalCartPrice() }}</span>
+            <button @click="clearCartHandler">Clear Cart</button>
         </div>
-    </div>
-    <hr />
-    <div>
+        <div v-else>Empty cart.Add item to cart</div>
+    </modal-component>
+
+    <products-list-component
+        :products="products"
+        @emit-add-to-cart="addToCartHandler"
+    />
+
+    <!-- <div>
         <div v-for="product in cart" :key="product.id">
             <span>{{ product.name }}</span>
             <button @click="removeFromCartHandler(product.id)">-</button>
@@ -46,16 +45,12 @@
             <span>Subtotal: {{ getCartItemSubtotal(product) }}</span>
             <button @click="deleteCartItemHandler(product.id)">Delete</button>
         </div>
-        <span>Total item: {{ getTotalCartCount() }}</span>
-        <span>Total price: {{ getTotalCartPrice() }}</span>
-        <button @click="clearCartHandler">Clear Cart</button>
-    </div>
+        
+    </div> -->
 </template>
 
 <script>
-import ProductCardComponent from "./ProductCardComponent.vue";
 export default {
-    components: { ProductCardComponent },
     data: function () {
         return {
             products: [
@@ -125,12 +120,6 @@ export default {
             );
         },
 
-        getCartItemSubtotal(product) {
-            const { count, price } = product;
-
-            return count * price;
-        },
-
         getTotalCartCount() {
             return this.cart.reduce((total, item) => total + item.count, 0);
         },
@@ -142,8 +131,8 @@ export default {
             );
         },
 
-        addToCartHandler(cartItem) {
-            const { id, name, stock, price } = cartItem;
+        addToCartHandler(product) {
+            const { id, name, stock, price } = product;
             const existingItem = this.cart.find((item) => item.id === id);
 
             if (existingItem) {
@@ -162,9 +151,7 @@ export default {
                 });
             }
 
-            if (!this.isModalVisible) {
-                this.isModalVisible = true;
-            }
+            this.showModalHandler(true);
         },
 
         removeFromCartHandler(id) {
@@ -175,6 +162,8 @@ export default {
 
                 if (this.cart[index].count === 0) {
                     this.cart.splice(index, 1);
+
+                    this.showModalHandler(false);
                 }
             }
         },
@@ -207,10 +196,11 @@ export default {
 
         clearCartHandler() {
             this.cart = [];
+            this.showModalHandler(false);
         },
 
-        closeModalHandler() {
-            this.isModalVisible = false;
+        showModalHandler(value) {
+            this.isModalVisible = value;
         },
 
         checkoutHandler() {},

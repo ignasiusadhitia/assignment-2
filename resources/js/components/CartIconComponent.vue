@@ -30,7 +30,6 @@ export default {
     props: {
         count: {
             type: Number,
-            default: 1,
         },
     },
     methods: {

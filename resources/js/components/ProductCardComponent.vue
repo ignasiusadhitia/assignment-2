@@ -1,7 +1,7 @@
 <template>
     <span>{{ product.name }}</span>
 
-    <span>Remaining stock: {{ getRemainingStock }}</span>
+    <!-- <span>Remaining stock: {{ getRemainingStock }}</span>
     <button
         @click="emitAddToCart"
         :disabled="
@@ -9,38 +9,23 @@
         "
     >
         Add to cart
-    </button>
+    </button> -->
+
+    <button @click="addToCart(product)">Add to cart</button>
 </template>
 
 <script>
 export default {
-    emits: ["emit-add-product"],
+    emits: ["emit-add-to-cart"],
     props: {
         product: {
             type: Object,
             required: true,
         },
-        cart: {
-            type: Array,
-            required: true,
-        },
-    },
-    computed: {
-        getRemainingStock() {
-            return (
-                this.product.stock - this.getProductCountInCart(this.product.id)
-            );
-        },
     },
     methods: {
-        emitAddToCart() {
-            this.$emit("emit-add-product", this.product);
-        },
-
-        getProductCountInCart(id) {
-            const itemInCart = this.cart.find((item) => (item.id = id));
-
-            return itemInCart ? itemInCart.count : 0;
+        addToCart(product) {
+            this.$emit("emit-add-to-cart", product);
         },
     },
 };

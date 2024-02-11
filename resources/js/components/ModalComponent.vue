@@ -7,7 +7,6 @@
         aria-modal="true"
         role="dialog"
         style="display: block; background-color: rgba(33, 37, 41, 0.4)"
-        @click="onCloseHandler"
     >
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -20,16 +19,18 @@
                         class="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
+                        @click="showModal"
                     ></button>
                 </div>
                 <div class="modal-body">
-                    <p>This is a vertically centered modal.</p>
+                    <slot />
                 </div>
                 <div class="modal-footer">
                     <button
                         type="button"
                         class="btn btn-secondary"
                         data-bs-dismiss="modal"
+                        @click="showModal"
                     >
                         Close
                     </button>
@@ -44,7 +45,7 @@
 
 <script>
 export default {
-    emits: ["emit-close"],
+    emits: ["emit-show-modal"],
 
     props: {
         cartData: {
@@ -56,8 +57,8 @@ export default {
     },
 
     methods: {
-        onCloseHandler() {
-            this.$emit("emit-close");
+        showModal() {
+            this.$emit("emit-show-modal");
         },
     },
 };
