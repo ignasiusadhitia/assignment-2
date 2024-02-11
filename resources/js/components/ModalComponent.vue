@@ -39,7 +39,7 @@
                         Back
                     </button>
                     <button
-                        v-if="cartData.length > 0"
+                        v-if="cartData.length > 0 && !paymentMessageVisible"
                         type="button"
                         class="btn btn-primary"
                         @click="checkoutHandler"
