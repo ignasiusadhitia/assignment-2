@@ -1,7 +1,11 @@
-<template><div></div></template>
+<template>
+    <header class="header-container justify-content-between">
+        <slot />
+    </header>
+</template>
 
-<script>
-export default {};
-</script>
-
-<style></style>
+<style scoped>
+.header-container {
+    display: flex;
+}
+</style>

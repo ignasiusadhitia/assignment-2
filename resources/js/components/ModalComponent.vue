@@ -12,7 +12,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalCenterTitle">
-                        Modal title
+                        {{ title }}
                     </h1>
                     <button
                         type="button"
@@ -32,10 +32,10 @@
                         data-bs-dismiss="modal"
                         @click="showModal"
                     >
-                        Close
+                        Back
                     </button>
                     <button type="button" class="btn btn-primary">
-                        Save changes
+                        Checkout
                     </button>
                 </div>
             </div>
@@ -53,6 +53,9 @@ export default {
             default: () => {
                 return [];
             },
+        },
+        title: {
+            type: String,
         },
     },
 

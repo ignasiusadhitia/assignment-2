@@ -1,11 +1,13 @@
 <template>
-    <div v-for="product in products" :key="product.id">
-        <product-card-component
-            :product="product"
-            :get-remaining-stock="getRemainingStock"
-            :get-product-count-in-cart="getProductCountInCart"
-            @emit-add-to-cart="addToCart"
-        />
+    <div class="my-3">
+        <div v-for="product in products" :key="product.id" class="my-2">
+            <product-card-component
+                :product="product"
+                :get-remaining-stock="getRemainingStock"
+                :get-product-count-in-cart="getProductCountInCart"
+                @emit-add-to-cart="addToCart"
+            />
+        </div>
     </div>
 </template>
 

@@ -36,9 +36,6 @@ app.component("footer-component", FooterComponent);
 import HeaderComponent from "./components/HeaderComponent.vue";
 app.component("header-component", HeaderComponent);
 
-import ImageComponent from "./components/ImageComponent.vue";
-app.component("image-component", ImageComponent);
-
 import InputComponent from "./components/InputComponent.vue";
 app.component("input-component", InputComponent);
 
@@ -48,14 +45,14 @@ app.component("logo-component", LogoComponent);
 import ModalComponent from "./components/ModalComponent.vue";
 app.component("modal-component", ModalComponent);
 
+import PageLayoutComponent from "./components/PageLayoutComponent.vue";
+app.component("page-layout-component", PageLayoutComponent);
+
 import ProductCardComponent from "./components/ProductCardComponent.vue";
 app.component("product-card-component", ProductCardComponent);
 
 import ProductsListComponent from "./components/ProductsListComponent.vue";
 app.component("products-list-component", ProductsListComponent);
-
-import TextComponent from "./components/TextComponent.vue";
-app.component("text-component", TextComponent);
 
 /**
  * The following block of code may be used to automatically register your

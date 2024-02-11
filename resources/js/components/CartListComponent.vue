@@ -1,13 +1,13 @@
 <template>
-    <div v-for="product in cart" :key="product.id">
-        <cart-item-component
-            :product="product"
-            @emit-remove-from-cart="removeFromCart"
-            @emit-add-to-cart="addToCart"
-            @emit-delete-cart-item="deleteCartItem"
-            @emit-update-cart-item-count="updateCartItemCount"
-        />
-    </div>
+    <cart-item-component
+        v-for="product in cart"
+        :key="product.id"
+        :product="product"
+        @emit-remove-from-cart="removeFromCart"
+        @emit-add-to-cart="addToCart"
+        @emit-delete-cart-item="deleteCartItem"
+        @emit-update-cart-item-count="updateCartItemCount"
+    />
 </template>
 
 <script>

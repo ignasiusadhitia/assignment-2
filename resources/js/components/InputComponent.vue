@@ -28,9 +28,17 @@ export default {
 
 <style scoped>
 input {
-    width: 2rem;
-    height: 2rem;
-    padding: 0.25rem;
+    width: 3rem;
     text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 </style>

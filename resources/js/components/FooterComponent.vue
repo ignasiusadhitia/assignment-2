@@ -1,7 +1,5 @@
-<template><div></div></template>
-
-<script>
-export default {};
-</script>
-
-<style></style>
+<template>
+    <footer class="mt-auto">
+        <p class="text-center text-body-secondary">© 2024 Caféine</p>
+    </footer>
+</template>
