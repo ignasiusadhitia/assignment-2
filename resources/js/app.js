@@ -54,6 +54,9 @@ app.component("product-card-component", ProductCardComponent);
 import ProductsListComponent from "./components/ProductsListComponent.vue";
 app.component("products-list-component", ProductsListComponent);
 
+import TextComponent from "./components/TextComponent.vue";
+app.component("text-component", TextComponent);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
